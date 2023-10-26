@@ -42,7 +42,7 @@ def title():
 	| |                                           
 	|_|                                
 		   A VISCA Pan Tilt Zoom Controller
-			Created by Kalos - Version 1.0      
+			Created by Kalos - Version 1.1      
 					 Go get 'em     
 	"""
 
