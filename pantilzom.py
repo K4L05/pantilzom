@@ -1,20 +1,20 @@
 # Proj pantilzom
 # The Prototype
-# Version 1.0
-# With a bunch of stuff
+# Version 1.1
+# Fixed the linux zoom bug
 
 # Author:   	Kalos Robinson-Frani
 # Email:    	st20218@howick.school.nz
-# Start Date:	16/10/2023 @ 10:19 (During 12BUS)
-# Finish Date:	19/10/2023 @ 10:37 (During 12DGT)
+# Date: 	26/10/23 @ 23:33
 
 import serial
 from inputs import get_gamepad
 import math
 import threading
 from time import sleep
+import platform
 
-comPort = 'COM9'
+comPort = 'COM13'
 camAddr = 1
 
 xActive = 0
@@ -273,6 +273,7 @@ class XboxController(object):
 		backlight = self.Back
 
 		# Powerbutton is mapped to the wrong button.
+		"""
 		global powerState # Put this into its own function later
 		if pwr:
 			if powerState:
@@ -280,7 +281,7 @@ class XboxController(object):
 				powerState = 0
 			elif not powerState:
 				on()
-				powerState = 1
+				powerState = 1"""
 
 		# Next do backlight
 		
@@ -485,8 +486,12 @@ def pantiltHandler(position, xspeed = 1, yspeed = 1):
 			LsActive = 0
 			pan_stop()
 
-def zoomHandler(direction, speed=3):
+def zoomHandler(direction, speed=0.5):
 	global trigActive
+	if platform.system() == "Linux":
+
+		speed = output_value = ((speed - 0) / (4 - 0)) * (1 - 0) + 0
+
 	input_range = [trigDz, 1] # Adjust stick deadzones here
 	output_range = [1, 7]
 	output_value = str(round(((speed - input_range[0]) / (input_range[1] - input_range[0])) * (output_range[1] - output_range[0]) + output_range[0]))
